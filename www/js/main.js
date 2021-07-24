@@ -1,5 +1,7 @@
 'use strict'
 
+import * as db from './db_utils.js';
+
 let login_info = {
     user: null,
     psswd: null,
@@ -15,9 +17,9 @@ function form_but_cb() {
         }
     });
 
-    if (user_authorized()) {
+    if (db.user_authorized(login_info)) {
         window.open("test.html", "_self");
-    } 
+    }
 }
 
 function main() {

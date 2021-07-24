@@ -2,8 +2,12 @@
 
 import sys
 import time
+
+from flask import request
 from CameraServer import CameraServer
 from flask import Flask, jsonify
+
+import modules.db_utils as db
 
 app = Flask("IP_Camera_Server")
 camera_server = CameraServer()
@@ -24,6 +28,12 @@ def start_capturing():
 @app.route('/stop_capturing')
 def stop_capturing():
     camera_server.stop()
+    return jsonify("SUCCESS")
+
+@app.route('/login_check')
+def login_check():
+    print("Ok")
+
     return jsonify("SUCCESS")
 
 def start_flask_server():
