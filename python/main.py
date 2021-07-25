@@ -30,11 +30,15 @@ def stop_capturing():
     camera_server.stop()
     return jsonify("SUCCESS")
 
-@app.route('/login_check')
+@app.route('/login_check', methods=['GET', 'POST'])
 def login_check():
-    print("Ok")
 
-    return jsonify("SUCCESS")
+    if (request.method == "GET"):
+        print("Get")
+        return jsonify("SUCCESS")
+    else:
+        print("Post")
+        return "SUCCESS", 200
 
 def start_flask_server():
     app.run(host='0.0.0.0', port=8888, debug=True,  use_reloader=False)
