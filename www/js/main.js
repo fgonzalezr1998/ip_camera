@@ -1,10 +1,18 @@
 'use strict'
 
-import * as db from './db_utils.js';
-
 let login_info = {
     user: null,
     psswd: null,
+}
+
+function on_success(result) {
+    if (result == "SUCCESS") {
+        window.open("test.html", "_self");
+    }
+}
+
+function credentials_ok(login_info) {
+    return true;
 }
 
 function form_but_cb() {
@@ -17,9 +25,22 @@ function form_but_cb() {
         }
     });
 
-    if (db.user_authorized(login_info)) {
-        window.open("test.html", "_self");
+    if (!credentials_ok(login_info)) {
+        console.log("Pint a tooltip")
+        return
     }
+
+    // Check if user is authorized
+    $.ajax({
+        url: 'http://localhost:8888/login_check',
+        type: 'GET',
+        data: login_info,
+        dataType: 'json',
+        success: on_success,
+        error: function(error) {
+            alert("Error")
+        }
+    });
 }
 
 function main() {

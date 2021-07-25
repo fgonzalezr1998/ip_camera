@@ -5,11 +5,14 @@ import time
 
 from flask import request
 from CameraServer import CameraServer
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
+from flask_cors import CORS, cross_origin
 
 import modules.db_utils as db
 
 app = Flask("IP_Camera_Server")
+cors = CORS(app)
+app.config['CORS_HEADERS'] = "Access-Control-Allow-Credentials"
 camera_server = CameraServer()
 
 @app.route('/')
@@ -30,15 +33,21 @@ def stop_capturing():
     camera_server.stop()
     return jsonify("SUCCESS")
 
-@app.route('/login_check', methods=['GET', 'POST'])
+@app.route('/login_check/', methods=['GET', 'POST'])
+@cross_origin()
 def login_check():
 
     if (request.method == "GET"):
-        print("Get")
-        return jsonify("SUCCESS")
+        user = request.args.get("user")
+        psswd = request.args.get("psswd")
+        if (db.login_ok(user, psswd)):
+            response = jsonify("SUCCESS")
+        else:
+            response = jsonify("FAILURE")
+        return response
     else:
         print("Post")
-        return "SUCCESS", 200
+        return "FAILURE", 401
 
 def start_flask_server():
     app.run(host='0.0.0.0', port=8888, debug=True,  use_reloader=False)
