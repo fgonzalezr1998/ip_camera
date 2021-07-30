@@ -7,7 +7,7 @@ let login_info = {
 
 function on_success(result) {
     if (result == "SUCCESS") {
-        window.open("test.html", "_self");
+        window.open("http://localhost:8888/", "_self");
     }
 }
 
@@ -26,7 +26,7 @@ function form_but_cb() {
     });
 
     if (!credentials_ok(login_info)) {
-        console.log("Pint a tooltip")
+        console.log("Print a tooltip")
         return
     }
 
@@ -34,6 +34,7 @@ function form_but_cb() {
     $.ajax({
         url: 'http://localhost:8888/login_check',
         type: 'GET',
+        crossDomain: true,
         data: login_info,
         dataType: 'json',
         success: on_success,

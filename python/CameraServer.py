@@ -7,6 +7,7 @@ class CameraServer(threading.Thread):
         self.__is_active = False
         self.__camera = None
         self.__failure = True
+        self.__last_frame = None
         threading.Thread.__init__(self, name=name)
         threading.Thread.start(self)
     
@@ -30,8 +31,7 @@ class CameraServer(threading.Thread):
             else:
                 self.__failure = False
 
-            cv2.imshow("Img", frame)
-            cv2.waitKey(1)
+            self.__last_frame = frame
 
         self.__camera.release()
         print("Camera Stopped")
@@ -49,3 +49,6 @@ class CameraServer(threading.Thread):
 
     def stop(self):
         self.__is_active = False
+
+    def getFrame(self):
+        return self.__last_frame
