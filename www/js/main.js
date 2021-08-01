@@ -12,6 +12,7 @@ function on_success(result) {
 }
 
 function credentials_ok(login_info) {
+    // IMPLEMENT THIS TO TAKE CARE OF SQL INJECTION!
     return true;
 }
 
@@ -32,15 +33,15 @@ function form_but_cb() {
 
     // Check if user is authorized
     $.ajax({
-        url: 'http://localhost:8888/login_check',
-        type: 'GET',
-        crossDomain: true,
-        data: login_info,
-        dataType: 'json',
-        success: on_success,
-        error: function(error) {
-            alert("Error")
-        }
+      url: 'http://localhost:8888/login_check',
+      type: 'GET',
+      crossDomain: true,
+      data: login_info,
+      dataType: 'json',
+      success: on_success,
+      error: function(error) {
+        alert("Error")
+      }
     });
 }
 

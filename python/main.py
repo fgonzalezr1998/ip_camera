@@ -17,7 +17,6 @@ app.config['CORS_HEADERS'] = "Access-Control-Allow-Credentials"
 camera_server = CameraServer()
 
 def gen_frames():
-    camera_server.start()
     while True:
         ret, buffer = cv2.imencode('.jpg', camera_server.getFrame())
         frame = buffer.tobytes()

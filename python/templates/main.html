@@ -9,18 +9,73 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <title>Live Streaming</title>
   </head>
 
   <body>
     <div class="container">
+      <!-- 1st column: Image container -->
       <div class="row">
         <div class="col-lg-8  offset-lg-2">
-          <h3 class="mt-5">Live Streaming</h3>
+          <h3 class="mt-5" style="text-align: center;">Live Streaming</h3>
           <img src="{{ url_for('video_feed') }}" width="100%">
         </div>
       </div>
+
+      <!-- 2nd column: Start/Stop buttons -->
+      <div class="row" style="text-align: center;">
+        <div class="col">
+          <button type="button" class="btn btn-success">Start Camera</button>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-danger">Stop Camera</button>
+        </div>
+      </div>
     </div>
+
+    <script>
+      'use strict'
+
+      function success_btn_cb() {
+        // Turn the camera on
+        $.ajax({
+          url: 'http://localhost:8888/start_capturing',
+          type: 'GET',
+          crossDomain: true,
+          success: function(result) {
+            $('img').show()
+          },
+          error: function(error) {
+            alert("Error")
+          }
+        });
+      }
+
+      function danger_btn_cb() {
+        // Turn the camera off
+        $.ajax({
+          url: 'http://localhost:8888/stop_capturing',
+          type: 'GET',
+          crossDomain: true,
+          success: function(result) {
+            $('img').hide()
+          },
+          error: function(error) {
+            alert("Error")
+          }
+        });
+      }
+
+      function main() {
+        $('img').hide()
+        $('.btn-success').click(success_btn_cb)
+        $('.btn-danger').click(danger_btn_cb)
+      }
+
+      $(document).ready(main)
+    </script>
+
   </body>
 </html>

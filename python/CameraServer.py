@@ -34,7 +34,6 @@ class CameraServer(threading.Thread):
             self.__last_frame = frame
 
         self.__camera.release()
-        print("Camera Stopped")
 
     def start(self):
         print("Running Camera...")
